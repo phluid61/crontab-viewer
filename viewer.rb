@@ -267,7 +267,6 @@ begin
   $schedule = []
 
   ARGF.each_line.each_with_index do |line, lineno|
-puts line
     line.sub! /#.*$/, ''
     line.strip!
     if !line.empty?
