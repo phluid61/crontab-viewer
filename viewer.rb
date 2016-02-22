@@ -6,7 +6,7 @@ class Array
     elsif length == 2
       join ', and '
     else
-      "#{slice(0, -2).join(', ')}, and #{last}"
+      "#{slice(0,length-1).join(', ')}, and #{last}"
     end
   end
 end
@@ -85,7 +85,7 @@ def print_task min, hour, date, month, wday, command
         end
       elsif m.is_a? Range
         sfx = 'past'
-        "between #{m.first} and #{m.last}"
+        "every minute from #{m.first} to #{m.last}"
       else
         sfx = 'past'
         "at #{m}"
@@ -152,14 +152,14 @@ def print_task min, hour, date, month, wday, command
         v = d[:value]
         o = d[:of]
         if v == :ALL
-          "#{o._ 'day'}"
+          "every #{o._ 'day'}"
         elsif v.is_a? Range
           "every #{o._ 'day'} from #{v.first.wday} to #{v.last.wday}"
         else
           "?! every #{o._ 'day'} on #{v.wday}"
         end
       elsif d.is_a? Range
-        "every day from #{d.first.wday} and #{d.last.wday}"
+        "every day from #{d.first.wday} to #{d.last.wday}"
       else
         "every #{d.wday}"
       end
@@ -177,14 +177,14 @@ def print_task min, hour, date, month, wday, command
         v = m[:value]
         o = m[:of]
         if v == :ALL
-          "#{o._ 'month'}"
+          "every #{o._ 'month'}"
         elsif v.is_a? Range
           "every #{o._ 'month'} from #{v.first.month} to #{v.last.month}"
         else
           "?! every #{o._ 'month'} on #{v.month}"
         end
       elsif m.is_a? Range
-        "every month from #{m.first.month} and #{m.last.month}"
+        "every month from #{m.first.month} to #{m.last.month}"
       else
         m.month
       end
@@ -290,5 +290,5 @@ begin
     print_task *task
   end
 rescue => e
-  STDERR.puts e
+  STDERR.puts e, *e.backtrace
 end
