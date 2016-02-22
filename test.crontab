@@ -1,7 +1,7 @@
-# crontab for the eprints user on the EPrints live/production application server
+# my test crontab, with some stupid and unrealistic configurations
 
 SHELL=/bin/bash
-MAILTO=libsys@qut.edu.au
+MAILTO=matty@example.com
 # min   hour    day     month   day-of-week command
 #(0-59) (0-23)  (1-31)  (1-12)  (0-6)
 #
