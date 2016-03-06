@@ -12,8 +12,12 @@ module Crontab
     MONTH = Period.one_based %w(Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec)
     WDAY  = Period.zero_based %w(Sun Mon Tue Wed Thu Fri Sat Sun)
 
-    def Entry.from line, lineno
-      matches = line.match /^(?<min>\S+)\s+(?<hour>\S+)\s+(?<date>\S+)\s+(?<month>\S+)\s+(?<wday>\S+)\s+(?<command>.+)/
+    @@base_pattern = /^(?<min>\S+)\s+(?<hour>\S+)\s+(?<date>\S+)\s+(?<month>\S+)\s+(?<wday>\S+)\s+(?<command>.+)/
+    @@user_pattern = /^(?<min>\S+)\s+(?<hour>\S+)\s+(?<date>\S+)\s+(?<month>\S+)\s+(?<wday>\S+)\s+(?<user>\S+)\s+(?<command>.+)/
+
+    def Entry.from line, lineno, user:false
+      pattern = user ? @@user_pattern : @@base_pattern
+      matches = line.strip.match pattern
       if matches.nil?
         raise Crontab::ParseError, "error parsing line #{lineno}: bad line '#{line}'"
       else
@@ -23,7 +27,7 @@ module Crontab
           DATE.parse(matches[:date]),
           MONTH.parse(matches[:month]),
           WDAY.parse(matches[:wday]),
-          nil,
+          (matches[:user] rescue nil),
           matches[:command]
         )
       end
