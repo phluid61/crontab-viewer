@@ -28,7 +28,7 @@ module Crontab
     end
 
     def initialize min, max, map=nil
-      raise ArgumentError, "min (#{min}) not less than max (#{max})" unless min < max
+      raise ArgumentError, "min (#{min}) not <= than max (#{max})" unless min <= max
       @range = min..max
       @min = min
       @max = max
@@ -97,8 +97,8 @@ module Crontab
 
       a = arr.first
       z = arr.last
-      r = extract_ranges arr
-      if r.length == 1
+      x = extract_ranges arr
+      if x.length == 1
         # a contiguous range
         return Instance.new self, "#{a}-#{z}", arr
       end
@@ -120,7 +120,7 @@ module Crontab
       end
 
       # return the list of ranges (don't get any fancier)
-      return Instance.new self, r.map{|r| r.size == 1 ? "#{r.min}" : "#{r.min}-#{r.max}" }.join(','), arr
+      return Instance.new self, x.map{|r| r.size == 1 ? "#{r.min}" : "#{r.min}-#{r.max}" }.join(','), arr
     end
 
     def parse_value str
@@ -139,13 +139,13 @@ module Crontab
         raise Crontab::ParseError, "'#{str}' invalid, #{a} out of range #{@range}" unless @range.cover? a
         [a]
       when /^([^-]+)-(.+)$/
-        a = @iton[$1.downcase]
-        b = @iton[$2.downcase]
+        a = @ntoi[$1.downcase]
+        b = @ntoi[$2.downcase]
         raise Crontab::ParseError, "'#{str}' invalid, '#{$1}' unrecognised" unless a
         raise Crontab::ParseError, "'#{str}' invalid, '#{$2}' unrecognised" unless b
         (a..b).to_a
       else
-        a = @iton[str.downcase]
+        a = @ntoi[str.downcase]
         raise Crontab::ParseError, "'#{str}' invalid, '#{str}' unrecognised" unless a
         [a]
       end
