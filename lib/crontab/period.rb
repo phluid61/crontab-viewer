@@ -29,7 +29,7 @@ module Crontab
 
     def initialize min, max, map=nil
       raise ArgumentError, "min (#{min}) not <= than max (#{max})" unless min <= max
-      @range = min..max
+      #@range = min..max
       @min = min
       @max = max
       @iton = {}
@@ -38,6 +38,7 @@ module Crontab
       if map
         map.each_pair do |i,n|
           raise ArgumentError, "map key should be an Integer; given #{i.inspect}" unless i.is_a? Integer
+          # FIXME: this should raise if there is a dup followed by a non-dup
           norm = n.to_s.downcase
           j = @ntoi[norm]
           if j
