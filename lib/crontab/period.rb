@@ -60,7 +60,7 @@ module Crontab
       if @dups.empty?
         @range = min..max
       else
-        @range = min...@dups.keys.min
+        @range = min..(@dups.keys.min-1)
       end
     end
     attr_reader :min, :max, :range
@@ -144,6 +144,7 @@ module Crontab
         b = @ntoi[$2.downcase]
         raise Crontab::ParseError, "'#{str}' invalid, '#{$1}' unrecognised" unless a
         raise Crontab::ParseError, "'#{str}' invalid, '#{$2}' unrecognised" unless b
+        raise Crontab::ParseError, "'#{str}' invalid, #{$1} > #{$2}" if a > b
         (a..b).to_a
       else
         a = @ntoi[str.downcase]

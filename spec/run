@@ -1,0 +1,11 @@
+#!/bin/bash --
+
+case "$1" in
+	--help|-?)
+		echo "Usage:  $0 <path-to-ruby> [dir | spec]"
+		exit
+		;;
+esac
+
+/home/eprints/ruby/mspec/bin/mspec -t "$@"
+
