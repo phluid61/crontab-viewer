@@ -31,6 +31,8 @@ module Crontab
           matches[:command]
         )
       end
+    rescue Crontab::ParseError => e
+      raise Crontab::ParseError, "error parsing line #{lineno}: #{e}", e.backtrace
     end
 
     def initialize min, hour, date, month, wday, user, command
