@@ -66,7 +66,7 @@ describe "Crontab::Entry" do
     end
   end
 
-  describe "#from" do
+  describe "\#from" do
     describe "with 2 args" do
       it "parses a 6-field line into an Entry" do
         e = Crontab::Entry.from anon_line1, 0

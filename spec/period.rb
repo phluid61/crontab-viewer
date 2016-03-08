@@ -88,7 +88,7 @@ describe "Crontab::Period" do
     end
   end
 
-  describe "#value_of" do
+  describe "\#value_of" do
     p = Crontab::Period.one_based %w(a b c a)
     it "returns the correct value of unique names" do
       p.value_of('b').should == 2
@@ -105,7 +105,7 @@ describe "Crontab::Period" do
     end
   end
 
-  describe "#name_of" do
+  describe "\#name_of" do
     p = Crontab::Period.one_based %w(a b c A)
     it "returns the correct name of values where the names are unique" do
       p.name_of(2).should == 'b'
@@ -120,7 +120,7 @@ describe "Crontab::Period" do
     end
   end
 
-  describe "#parse_value" do
+  describe "\#parse_value" do
     describe "with unique names" do
       p = Crontab::Period.one_based %w(a b c)
 
@@ -158,21 +158,21 @@ describe "Crontab::Period" do
         end
       end
 
-      it "rejects values out of bounds" do
+      it "rejects values out of bounds with a ParseError" do
         lambda { p.parse_value('0') }.should raise_error(Crontab::ParseError) # value<min
         lambda { p.parse_value('4') }.should raise_error(Crontab::ParseError) # value>max
       end
-      it "rejects negative ranges" do
+      it "rejects negative ranges with a ParseError" do
         lambda { p.parse_value('2-1') }.should raise_error(Crontab::ParseError)
       end
-      it "rejects mixed numbers and names in ranges" do
+      it "rejects mixed numbers and names in ranges with a ParseError" do
         lambda { p.parse_value('1-c') }.should raise_error(Crontab::ParseError)
       end
-      it "rejects ranges out of bounds" do
+      it "rejects ranges out of bounds with a ParseError" do
         lambda { p.parse_value('0-2') }.should raise_error(Crontab::ParseError) # min<min
         lambda { p.parse_value('1-4') }.should raise_error(Crontab::ParseError) # max>max
       end
-      it "rejects ranges with invalid names" do
+      it "rejects ranges with invalid names with a ParseError" do
         lambda { p.parse_value('1-c') }.should raise_error(Crontab::ParseError)
       end
     end
@@ -208,7 +208,7 @@ describe "Crontab::Period" do
     end
   end
 
-  describe "#extract_ranges" do
+  describe "\#extract_ranges" do
     p = Crontab::Period.new 0, 1
 
     it "returns no ranges from an empty list of values" do
@@ -228,7 +228,7 @@ describe "Crontab::Period" do
     end
   end
 
-  describe "#parse" do
+  describe "\#parse" do
     p = Crontab::Period.one_based %w(a b c d e f g a)
 
     it "returns an Instance object" do
