@@ -8,7 +8,7 @@ require_relative '../lib/crontab/parse-error'
 describe "Crontab::ParseError" do
 
   it "is a StandardError" do
-    Crontab::ParseError.new.is_a?(StandardError).should == true
+    Crontab::ParseError.ancestors.include?(StandardError).should == true
   end
 
 end
