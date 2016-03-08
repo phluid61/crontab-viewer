@@ -19,7 +19,7 @@ module Crontab
       pattern = user ? @@user_pattern : @@base_pattern
       matches = line.strip.match pattern
       if matches.nil?
-        raise Crontab::ParseError, "error parsing line #{lineno}: bad line '#{line}'"
+        raise Crontab::ParseError, "error parsing line #{lineno}: not an entry line '#{line}'"
       else
         new(
           MIN.parse(matches[:min]),
