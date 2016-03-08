@@ -5,7 +5,7 @@ require File.expand_path('../spec_helper', __FILE__)
 
 require_relative '../lib/crontab/period'
 
-describe "Period" do
+describe "Crontab::Period" do
 
   describe "constructor" do
     it "can have a simple range (min<max)" do
@@ -236,6 +236,20 @@ describe "Period" do
     end
 
     # TODO: spec this out!
+
+    it "generates a summary that round-trips" do
+      [
+        '*',           #=> '*'
+        'c-e',         #=> '3-5'
+        '1,4-5,f',     #=> '1,4-6'
+        '*/2,1,3,5,7', #=> '*'
+        '1,8',         #=> '1'
+      ].each do |str|
+        i = p.parse(str)
+        j = p.parse(i.summary)
+        j.summary.should == i.summary
+      end
+    end
   end
 
 end
