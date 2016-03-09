@@ -12,6 +12,15 @@ module Crontab
         @values = values
       end
       attr_reader :period, :summary, :values
+
+      # TODO: spec these functions
+      def include? v
+        v = @period.value_of(v) unless v.is_a? Integer
+        @values.include? v
+      end
+      def each(&b) @values.each &b; end
+      include Enumerable
+
       def inspect
         "\#<#{self.class.name}:#{self.__id__.to_s 16} #{summary.inspect} #{values.inspect}>"
       end
