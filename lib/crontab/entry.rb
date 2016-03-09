@@ -45,6 +45,43 @@ module Crontab
       @command = command
     end
     attr_reader :min, :hour, :date, :month, :wday, :user, :command
+
+    # experimental APIs
+    def hourly?
+      @minute.values.length == 1 and
+      @hour.summary == '*' and
+      @date.summary == '*' and
+      @month.summary == '*' and
+      @wday.summary == '*'
+    end
+    def daily?
+      @minute.values.length == 1 and
+      @hour.values.length == 1 and
+      @date.summary == '*' and
+      @month.summary == '*' and
+      @wday.summary == '*'
+    end
+    def weekly?
+      @minute.values.length == 1 and
+      @hour.values.length == 1 and
+      @date.summary == '*' and
+      @month.summary == '*' and
+      @wday.values.length == 1
+    end
+    def monthly?
+      @minute.values.length == 1 and
+      @hour.values.length == 1 and
+      @date.values.length == 1 and
+      @month.summary == '*' and
+      @wday.summary == '*'
+    end
+    def yearly?
+      @minute.values.length == 1 and
+      @hour.values.length == 1 and
+      @date.values.length == 1 and
+      @month.values.length == 1 and
+      @wday.summary == '*'
+    end
   end
 end
 
