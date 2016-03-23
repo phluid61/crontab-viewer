@@ -76,6 +76,9 @@ module Crontab
       map
     end
 
+    def stupid_entries
+      @entries.select {|e| e.stupid? }
+    end
     def hourly_entries
       @entries.select {|e| e.hourly? }
     end
@@ -93,7 +96,7 @@ module Crontab
     end
     def nonstandard_entries
       @entries.reject do |e|
-        e.hourly? || e.daily? || e.weekly? || w.monthly? || e.yearly?
+        e.stupid? || e.hourly? || e.daily? || e.weekly? || e.monthly? || e.yearly?
       end
     end
 

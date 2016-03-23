@@ -46,37 +46,55 @@ module Crontab
     end
     attr_reader :min, :hour, :date, :month, :wday, :user, :command
 
+    def summary compact: false
+      s = [@min, @hour, @date, @month, @wday].map{|p| p.summary}.join("\t")
+      arr = [s, @user, @command]
+      arr.compact! if compact
+      arr.join("\t")
+    end
+
+    def user?
+      !@user.nil?
+    end
+
     # experimental APIs
+    def stupid?
+      @min.summary == '*' and
+      @hour.summary == '*' and
+      @date.summary == '*' and
+      @month.summary == '*' and
+      @wday.summary == '*'
+    end
     def hourly?
-      @minute.values.length == 1 and
+      @min.values.length == 1 and
       @hour.summary == '*' and
       @date.summary == '*' and
       @month.summary == '*' and
       @wday.summary == '*'
     end
     def daily?
-      @minute.values.length == 1 and
+      @min.values.length == 1 and
       @hour.values.length == 1 and
       @date.summary == '*' and
       @month.summary == '*' and
       @wday.summary == '*'
     end
     def weekly?
-      @minute.values.length == 1 and
+      @min.values.length == 1 and
       @hour.values.length == 1 and
       @date.summary == '*' and
       @month.summary == '*' and
       @wday.values.length == 1
     end
     def monthly?
-      @minute.values.length == 1 and
+      @min.values.length == 1 and
       @hour.values.length == 1 and
       @date.values.length == 1 and
       @month.summary == '*' and
       @wday.summary == '*'
     end
     def yearly?
-      @minute.values.length == 1 and
+      @min.values.length == 1 and
       @hour.values.length == 1 and
       @date.values.length == 1 and
       @month.values.length == 1 and

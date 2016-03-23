@@ -24,6 +24,13 @@ module Crontab
       def inspect
         "\#<#{self.class.name}:#{self.__id__.to_s 16} #{summary.inspect} #{values.inspect}>"
       end
+
+      def <=> o
+        return nuless o.is_a? Crontab::Period::Instance
+        n = first <=> o.values.first
+        n = last <=> o.values.last if n == 0
+        n
+      end
     end
 
     def Period.one_based *names

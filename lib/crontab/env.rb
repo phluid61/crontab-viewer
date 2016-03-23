@@ -22,8 +22,15 @@ module Crontab
       @map = {}
     end
 
+    def each &b
+      @map.each_pair do |k,v|
+        yield v
+      end
+    end
+    include Enumerable
+
     def [] name
-      @map[name.to_s]
+      @map[name.to_s].value
     end
 
     def length
@@ -36,7 +43,9 @@ module Crontab
     end
 
     def each_pair &b
-      @map.each_pair &b
+      @map.each_pair do |k,v|
+        yield v.name, v.value
+      end
     end
 
     # returns truthy if the line looks like an ENV setting
